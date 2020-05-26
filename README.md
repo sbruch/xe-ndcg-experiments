@@ -1,14 +1,4 @@
-# Setting up Virtualenv
-We need to build the LightGBM Python API from a cloned
-copy with the following changes:
-
-* Metric computation updated such that queries that have no
-  relevant documents are excluded. LightGBM's default behavior is
-  to give such queries an NDCG of 1. But that's an arbitrary choice,
-  so better to skip such queries at evaluation time.
-* Added an implementation of the XE_NDCG objective function
-  for ranking.
-
+# Build LightGBM and set up Virtualenv
 ```bash
 git clone git@github.com:sbruch/LightGBM.git
 cd LightGBM
