@@ -1,6 +1,6 @@
 # Build LightGBM and set up Virtualenv
 ```bash
-git clone git@github.com:sbruch/LightGBM.git
+git clone git@github.com:microsoft/LightGBM.git
 cd LightGBM
 mkdir build ; cd build
 cmake ..
