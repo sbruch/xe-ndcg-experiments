@@ -98,11 +98,11 @@ class Collection(object):
       if len(datasets) == 0:
         dataset = gbm.Dataset(data=features, label=relevances,
                               group=groups, params=params,
-                              silent=True)
+                              silent=True, free_raw_data=False)
       else:
         dataset = gbm.Dataset(data=features, label=relevances,
                               group=groups, reference=datasets[0],
-                              silent=True)
+                              silent=True, free_raw_data=False)
       datasets.append(dataset)
 
     return datasets

@@ -11,6 +11,10 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('--trials', type=int, action='store',
                       default=100, help='number of trials')
+  parser.add_argument('--threads', type=int, action='store',
+                      default=10, help='number of threads')
+  parser.add_argument('--early_stopping_rounds', type=int, action='store',
+                      default=50, help='early stopping rounds (0 to disable)')
   parser.add_argument('--label_noise', type=float, action='store',
                       default=0., help='fraction of labels to perturb')
   parser.add_argument('--negs_from_others', type=float, action='store', default=0.,
@@ -79,13 +83,19 @@ if __name__ == '__main__':
               'verbose': 0,
               'objective_seed': int(time.time()),
               'force_row_wise': True,
+              'num_threads': args.threads,
           },
           train_set=splits[0],
           num_boost_round=500,
-          early_stopping_rounds=50,
+          early_stopping_rounds=args.early_stopping_rounds,
           valid_sets=[splits[1]],
           verbose_eval=50,
           keep_training_booster=True)
+
+      # Compute metrics on the training set.
+      eval_results = feval(model.predict(splits[0].get_data()), splits[0])
+      for metric, value, _ in eval_results:
+        print('Eval on train set: {} {}:{:.5f}'.format(ranker, metric, value), flush=True)
 
       # Compute metrics on the test set.
       eval_results = feval(model.predict(splits[2].data), splits[2])
@@ -96,7 +106,7 @@ if __name__ == '__main__':
           metrics[metric][ranker] = []
         metrics[metric][ranker].append(value)
 
-        print('{} {}:{:.5f}'.format(ranker, metric, value), flush=True)
+        print('Eval on test set: {} {}:{:.5f}'.format(ranker, metric, value), flush=True)
 
   # Report the collected metrics and compute statistical significance.
   observed = []
