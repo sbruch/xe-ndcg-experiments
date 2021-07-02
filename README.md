@@ -1,6 +1,6 @@
 # Build LightGBM and set up Virtualenv
 ```bash
-git clone git@github.com:microsoft/LightGBM.git
+git clone --recursive https://github.com/microsoft/LightGBM
 cd LightGBM
 mkdir build ; cd build
 cmake ..
