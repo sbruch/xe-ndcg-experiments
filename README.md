@@ -11,7 +11,7 @@ cd ../python-package
 sudo apt-get install virtualenv python3-venv
 python3 -m venv /tmp/xendcg
 source /tmp/xendcg/bin/activate
-pip install scipy scikit-learn numpy
+pip install scipy scikit-learn numpy wheel
 python setup.py install
 ```
 
